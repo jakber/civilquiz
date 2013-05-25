@@ -47,27 +47,28 @@ function execDbQuery(query,params,queryCallback) {
 	});
 }
 
-function fetch_answers(response, question_id) {
-	var sqlString = 'SELECT answers.question_id, answers.id, questions.answer_id, answers.text FROM answers, questions WHERE answers.question_id = ' + question_id;
+function appendAnswersAndSend(response, question) {
+	var sqlString = 'SELECT distinct answers.id, answers.text, answers.question_id FROM answers, questions WHERE answers.question_id = ' + question.id;
 	execDbQuery(sqlString, null, function(err, res) {
 		if (err) throw err;
 		console.log('Answer: ', res[0].text);
-		response.send(res);
+		question.answers = res;
+		response.send(question);
 	});
 }
 
 var express = require('express');
 var app = express();
 app.get('/question', function(request, response) {
-	fetchQuestion(response);
+	sendQuestionWithAnswers(response);
 });
 
-function fetchQuestion(response) {
+function sendQuestionWithAnswers(response) {
 	var sqlString = 'SELECT * FROM questions ORDER BY RAND() LIMIT 1';
 	execDbQuery(sqlString, null, function(err, res) {
 		if (err) throw err;
 		console.log("Question: ", res[0].text);
-		fetch_answers(response, res[0].id);
+		appendAnswersAndSend(response, res[0]);
 	});
 }
 app.listen(3000);
