@@ -1,10 +1,14 @@
 $(function() {
-	startGame();
+	var body = $('#wrapper');
+	body.empty();
+	body.html(splashTemplate({}));
+	$("p.button").on("click", startGame);
 });
 
 var questionTemplate = Handlebars.compile($("#question-template").html());
 var scoreTemplate = Handlebars.compile($("#score-template").html());
 var gameOverTemplate = Handlebars.compile($("#game-over-template").html());
+var splashTemplate = Handlebars.compile($("#splash-template").html());
 var game = {
 	correct:0,
 	wrong:0
