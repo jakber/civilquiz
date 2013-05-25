@@ -97,7 +97,7 @@ app.post('/question', function (req, res) {
 		addAnswer(res, req.body.wrongAnswer1, 0);
 		addAnswer(res, req.body.wrongAnswer2, 0);
 		addAnswer(res, req.body.wrongAnswer3, 0);
-		//res.redirect('/loggedin.html');
+		res.send('Added new question: ' + req.body.question + ', with correct answers: ' + req.body.correctAnswer + ' and wrong answers: ' + req.body.wrongAnswer1 + ', ' + req.body.wrongAnswer2 + ', ' + req.body.wrongAnswer3);
 	});
 });
 
@@ -139,7 +139,6 @@ app.post('/login', function (req, res) {
   var post = req.body;
 
 	execDbQuery('SELECT * FROM admins WHERE username=? AND password=?',[req.body.username, req.body.password], function (err, results) {
-		console.log("Results are; ", results);
 		if(results.length >= 1) {
 			req.session.user_id = req.body.username;
 			res.redirect('/admin');
