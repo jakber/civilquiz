@@ -1,0 +1,32 @@
+		body {
+			background-color: #ccc;
+			font: bold 1.5em sans-serif;
+		}
+		ul {margin:0; padding:0;}
+		li {
+			background-color:#aa0; 
+			color: #fff;
+			list-style:none;
+			border: .2em solid white; 
+			padding:.5em; 
+			margin: .5em;
+		}
+		p.question { 
+			margin:0.5em; 
+			padding: 3em 0.5em;
+			background-color:#fff; 
+		}
+		p.score { 
+			margin:0.5em; 
+			padding: 0.5em;
+			background-color:#666; 
+		}
+		#flash {
+			font-size:600%;
+			position:absolute;
+			background-color:#ccc;
+			display:none;
+			padding:1em;
+			border:0.1em solid black;
+			margin:0 auto;
+		}

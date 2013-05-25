@@ -1,133 +1,105 @@
-<html>
+<!doctype html>
+<!--[if !IE]>      <html class="no-js non-ie" lang="en-US"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="en-US"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="en-US"> <![endif]-->
+<!--[if IE 9 ]>    <html class="no-js ie9" lang="en-US"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
 <head>
 	<meta charset="UTF-8">
 	<title>civil quiz</title>
-<style>
-body {
-	background-color: #ccc;
-	font: bold 1.5em sans-serif;
-}
-ul {margin:0; padding:0;}
-li {
-	background-color:#aa0; 
-	color: #fff;
-	list-style:none;
-	border: .2em solid white; 
-	padding:.5em; 
-	margin: .5em;
-}
-p.question { 
-	margin:0.5em; 
-	padding: 3em 0.5em;
-	background-color:#666; 
-}
-p.score { 
-	margin:0.5em; 
-	padding: 0.5em;
-	background-color:#666; 
-}
+	<style>
 
-</style>
-<script src="scripts/jquery-1.10.0.min.js"></script>
-<script src="scripts/underscore-min.js"></script>
-<script src="scripts/handlebars.js"></script>
+	</style>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+	<title>Quiz - Civilförsvarsförbundet</title>
+	<meta name='robots' content='noindex,nofollow' />
+	<link rel='stylesheet' id='responsive-style-css'  href='styles/style.css' type='text/css' media='all' />
 
-<script id="score-template" type="text/x-handlebars-template">
-<p class="score">{{correct}} rätt, {{wrong}} fel</p>
-</script>
+	<script src="scripts/jquery-1.10.0.min.js"></script>
+	<script src="scripts/underscore-min.js"></script>
+	<script src="scripts/handlebars.js"></script>
 
-<script id="question-template" type="text/x-handlebars-template">
-<p class="question">{{question}}</p>
-<ul>
-{{#each answers}}
-<li id="answer-{{answer}}" data-answer="{{answer}}">{{text}}</li>
-{{/each}}
-</ul>
-</script>
+	<script id="score-template" type="text/x-handlebars-template">
+	<p class="score">{{correct}} rätt, {{wrong}} fel</p>
+	</script>
 
-<script>
-var questions = [
-	{
-		question: "Vad bör du elda med inomhus?",
-		answers: [
-			{answer: "a", text: "Torr ved i lämplig storlek"},
-			{answer: "b", text: "Fuktig ved i lämplig storlek"},
-			{answer: "c", text: "Torr ved i olämplig storlek"},
-			{answer: "d", text: "Torr ved i lämplig storlek"}
-		],
-		correct:"a"
-	},
-	{
-		question: "Inomhustemperaturen sjunker om vi inte har tillgång till uppvärmning. I ett ordinärt välbyggt småhus med en inomhustemperatur på +21 grader tar det ett antal timmar innan inomhustemperaturen har sjunkit till  +10 grader, förutsatt att utomhustemperaturen är -10 grader. Hur lång tid tar det?",
-		answers: [
-			{answer: "a", text: "24 timmar"},
-			{answer: "b", text: "36 timmar"},
-			{answer: "c", text: "48 timmar"},
-			{answer: "d", text: "60 timmar"}
-		],
-		correct: "b"
-	}
-];
-var questionTemplate = Handlebars.compile($("#question-template").html());
-var scoreTemplate = Handlebars.compile($("#score-template").html());
-var currentQuestion = -1;
-var score = {
-	correct:0,
-	wrong:0
-};
+	<script id="question-template" type="text/x-handlebars-template">
+	<div id="flash"></div>
+	<h2 class="question">{{question}}</h2>
+	<ul>
+	{{#each answers}}
+	<li id="answer-{{answer}}" data-answer="{{answer}}">{{text}}</li>
+	{{/each}}
+	</ul>
+	</script>
 
-$(function() {
-	nextQuestion();
-});
-
-function renderQuestion(question) {
-	var body = $('#question');
-	body.empty();
-	body.html(questionTemplate(question));
-	$('li').on('click', function(event) {
-		var clicked = $(this);
-		var answer = clicked.data("answer");
-		clicked.css("background-color", "#999");
-		validateAnswer(question, answer, function(res) {
-			if (res.result == "correct") {
-				score.correct++;
-				clicked.css("background-color", "#6f3");
-			} else {
-				clicked.css("background-color", "#c30");
-				console.log(res)
-				$("#answer-" + res.correct).css("background-color", "#6f3");
-				score.wrong++;
-			}
-			renderScore();
-			setTimeout(nextQuestion, 2000);
-		});
-	});
-} 
-
-function renderScore() {
-	var body = $('#score');
-	body.empty();
-	body.html(scoreTemplate(score));
-}
-
-function validateAnswer(question, answer, callback) {
-	if (answer == question.correct) {
-		callback({result:"correct"});
-	} else {
-		callback({result:"wrong", correct:question.correct});
-	}
-}
-
-function nextQuestion() {
-	currentQuestion = (currentQuestion+1)%questions.length;
-	renderQuestion(questions[currentQuestion]);
-}
-</script>
-
-
+	<script src="scripts/quiz.js"></script>
 </head>
+
+
+
+
+
+
+
+
+
+
+
 <body>
-	<div id="question"></div>
-	<div id="score"></div>
+<div id="container" class="hfeed">
+    <div id="header">
+		<ul id="menu" class="menu">
+			<li class="menu-item"><a href="#quiz">Quiz</a></li>
+			<li class="menu-item"><a href="http://themeid.com/demo/responsive/page-with-comments/">Om</a></li>
+		</ul>                
+    </div><!-- end of #header -->
+        
+	<div id="wrapper" class="clearfix">
+		<div id="score"></div>	
+	<div id="quiz" class="grid">
+		<div id="quiz-item" class="widget-wrapper">
+			<h2>För vilken ålder är det lag på cykelhjälm i Sverige?</h2>
+			<div>
+				<ol>
+					<li class="first">Alla under 15 år</li>
+					<li>Alla under 12 år</li>
+					<li>Alla ska ha hjälm på sig när de cyklar</li>
+					<li>Det är ingen lag utan en rekommendation</li>
+				</ol>
+			</div>
+		</div><!-- end of .widget-wrapper -->
+	</div>
+	<div id="avatar">
+		<img src="images/avatar.png" alt="avatar" />
+	</div>
+
+			    </div><!-- end of #wrapper -->
+</div><!-- end of #container -->
+
+<div id="footer">
+		<div id="logo">
+            <a href="http://www.civil.se/" title="Gå till www.civil.se"><img src="images/civil_logotype.jpg" alt="Civilförsvarsförbundets logotyp" /></a>
+        </div><!-- end of #logo -->
+        <div class="grid scroll-top">
+			Tillbaka till toppen
+			<a href="#scroll-top" title="scroll to top">&uarr;</a></div>           
+	</div><!-- end #footer -->
+
+<audio preload="auto" id="audio-cheer"><source src="sounds/5_Sec_Crowd_Cheer-Mike_Koenig-1562033255.mp3" type="audio/mpeg"></audio>
+<audio preload="auto" id="audio-fail"><source src="sounds/Basketball_Buzzer-SoundBible.com-1863250611.mp3" type="audio/mpeg"></audio>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
