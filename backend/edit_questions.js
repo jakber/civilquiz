@@ -48,7 +48,7 @@ function execDbQuery(query,params,queryCallback) {
 }
 
 function appendAnswersAndSend(response, question) {
-	var sqlString = 'SELECT distinct answers.id, answers.text, answers.question_id FROM answers, questions WHERE answers.question_id = ' + question.id;
+	var sqlString = 'SELECT DISTINCT answers.text, answers.id, answers.correct FROM answers, questions WHERE answers.question_id = ' + question.id + ' ORDER BY RAND()';
 	execDbQuery(sqlString, null, function(err, res) {
 		if (err) throw err;
 		console.log('Answer: ', res[0].text);
@@ -59,6 +59,11 @@ function appendAnswersAndSend(response, question) {
 
 var express = require('express');
 var app = express();
+app.configure(function(){
+  app.use(express.bodyParser());
+  app.use(app.router);
+});
+
 app.get('/question', function(request, response) {
 	sendQuestionWithAnswers(response);
 });
@@ -71,5 +76,21 @@ function sendQuestionWithAnswers(response) {
 		appendAnswersAndSend(response, res[0]);
 	});
 }
+
+function addAnswer(answer, isCorrect) {
+	execDbQuery('INSERT INTO answers VALUES (null,?, LAST_INSERT_ID(), ?)', [answer, isCorrect], function (error, result, field) {
+                        if (error) res.send('Error inserting answer', 500);
+                        res.json(result);
+                });
+}
+app.post('/add_question', function (req, res) {
+	execDbQuery('INSERT INTO questions VALUES (null,'+[req.body.question]+')',null, function (err, results, fields) {
+		if (err) res.send('Error inserting question.', 500);
+		addAnswer(req.body.correctAnswer, 1);
+		addAnswer(req.body.wrongAnswer1, 0);
+		addAnswer(req.body.wrongAnswer2, 0);
+		addAnswer(req.body.wrongAnswer3, 0);
+	});
+});
 app.listen(3000);
 console.log('Listening on port 3000');
