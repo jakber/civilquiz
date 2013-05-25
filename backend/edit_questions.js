@@ -63,7 +63,6 @@ app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({secret:'sea-anemone'}));
 app.set('views', __dirname + '/views');
-app.engine('html', require('ejs').renderFile);
 
 app.get('/admin', function(req, res) {
 	if (!req.session.user_id) {
