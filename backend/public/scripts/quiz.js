@@ -1,23 +1,23 @@
 var questions = [
 	{
-		question: "Vad bör du elda med inomhus?",
+		id: 1,
+		text: "Vad bör du elda med inomhus?",
 		answers: [
-			{answer: "a", text: "Torr ved i lämplig storlek"},
-			{answer: "b", text: "Fuktig ved i lämplig storlek"},
-			{answer: "c", text: "Torr ved i olämplig storlek"},
-			{answer: "d", text: "Torr ved i lämplig storlek"}
-		],
-		correct:"a"
+			{id: "a", text: "Torr ved i lämplig storlek", correct:1},
+			{id: "b", text: "Fuktig ved i lämplig storlek", correct:0},
+			{id: "c", text: "Torr ved i olämplig storlek", correct:0},
+			{id: "d", text: "Fuktig ved i olämplig storlek", correct:0}
+		]
 	},
 	{
-		question: "Inomhustemperaturen sjunker om vi inte har tillgång till uppvärmning. I ett ordinärt välbyggt småhus med en inomhustemperatur på +21 grader tar det ett antal timmar innan inomhustemperaturen har sjunkit till  +10 grader, förutsatt att utomhustemperaturen är -10 grader. Hur lång tid tar det?",
+		id: 2,
+		text: "Inomhustemperaturen sjunker om vi inte har tillgång till uppvärmning. I ett ordinärt välbyggt småhus med en inomhustemperatur på +21 grader tar det ett antal timmar innan inomhustemperaturen har sjunkit till  +10 grader, förutsatt att utomhustemperaturen är -10 grader. Hur lång tid tar det?",
 		answers: [
-			{answer: "a", text: "24 timmar"},
-			{answer: "b", text: "36 timmar"},
-			{answer: "c", text: "48 timmar"},
-			{answer: "d", text: "60 timmar"}
-		],
-		correct: "b"
+			{id: 1, text: "24 timmar", correct:0},
+			{id: 2, text: "36 timmar", correct:1},
+			{id: 3, text: "48 timmar", correct:0},
+			{id: 4, text: "60 timmar", correct:0}
+		]
 	}
 ];
 var questionTemplate = Handlebars.compile($("#question-template").html());
@@ -45,16 +45,13 @@ function renderQuestion(question) {
 		validateAnswer(question, answer, function(res) {
 			if (res.result == "correct") {
 				game.correct++;
-				clicked.css("background-color", "#6f3");
+				clicked.addClass("green");
 				$("#audio-cheer").get(0).play();
 				$("#flash").html("")
-				$("#flash").html("Rätt")
 			} else {
-				clicked.css("background-color", "#c30");
-				console.log(res)
-				$("#answer-" + res.correct).css("background-color", "#6f3");
+				clicked.addClass("red")
+				$("#answer-" + res.correct).addClass("green");
 				$("#audio-fail").get(0).play();
-				$("#flash").html("Fel")
 				game.wrong++;
 			}
 			//$("#flash").css("display", "inline-block");
@@ -64,7 +61,6 @@ function renderQuestion(question) {
 } 
 
 function startGame() {
-	console.log("new game")
 	game = {
 		time:60.0,
 		correct:0,
@@ -72,7 +68,6 @@ function startGame() {
 	};
 
 	renderScore();
-	console.log($(".bar div").get(0));
 	$(".bar div").animate({width:0}, 60000, gameOver);
 	nextQuestion();
 }
@@ -92,18 +87,22 @@ function renderScore() {
 	body.html(scoreTemplate(game));
 }
 
-function validateAnswer(question, answer, callback) {
-	if (answer == question.correct) {
+function validateAnswer(question, answer, callback) {	
+	var correct = _.find(question.answers, function(a) {return a.correct == 1});
+	if (answer == correct.id) {
 		callback({result:"correct"});
 	} else {
-		callback({result:"wrong", correct:question.correct});
+		callback({result:"wrong", correct:correct.id});
 	}
 }
 
 function nextQuestion() {
 	delete game.nextQuestionTimer;
-	currentQuestion = (currentQuestion+1)%questions.length;
-	renderQuestion(questions[currentQuestion]);
+	$.getJSON("/question", function(data) {
+		renderQuestion(data);
+	});
+	//currentQuestion = (currentQuestion+1)%questions.length;
+	
 }
 
 function gameOver() {

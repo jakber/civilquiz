@@ -8,8 +8,8 @@
 	<meta charset="UTF-8">
 	<title>civil quiz</title>
 	<style>
-.bar {
-	background-color:#ccc;
+div.bar {
+	background-color:#fff;
 	padding:0.1em;
 
 }
@@ -36,62 +36,55 @@
 
 	<script id="question-template" type="text/x-handlebars-template">
 		<div id="flash"></div>
-		<h2 class="question">{{question}}</h2>
-		<ul>
+		<h2 class="question">{{text}}</h2>
+		<div><ol>
 			{{#each answers}}
-				<li id="answer-{{answer}}" data-answer="{{answer}}">{{text}}</li>
+				<li id="answer-{{id}}" data-answer="{{id}}" class="blue">{{text}}</li>
 			{{/each}}
-		</ul>
+		</ol></div>
 	</script>
 
 	<script id="game-over-template" type="text/x-handlebars-template">
-		<h2 class="question">Spelet slut</h2>
-		<p>Du fick {{score}} poäng ({{correct}} rätt, {{wrong}} fel).</p>
-		<button id="playagain">Spela igen</button>
+		<h2>Tiden är ute!</h2>
+		
+		<p>Du fick 12 rätt och 4 fel på en minut. Det ger dig <span class="points">8 poäng</span>.</p>
+		<p>Är du inte nöjd? <a src="index.html">Försök igen!</a></p>
+		<p>Eller vill du läsa på lite? <a href="http://www.civil.se/tips-rad/">Besök Tips & råd på vår sajt</a>
+		</p>
 	</script>
 
 	<script src="scripts/quiz.js"></script>
 </head>
 
-
-
-
-
-
-
-
-
-
-
 <body>
-<div id="container" class="hfeed">
-    <div id="header">
-		<ul id="menu" class="menu">
-			<li class="menu-item"><a href="#quiz">Quiz</a></li>
-			<li class="menu-item"><a href="http://themeid.com/demo/responsive/page-with-comments/">Om</a></li>
+    <nav>
+		<ul id="menu">
+			<li><a href="index.html">Quiz</a></li>
+			<li><a href="about.html">Om</a></li>
 		</ul>                
-    </div><!-- end of #header -->
-        
-	<div id="wrapper" class="clearfix">
-	<div id="quiz" class="grid">
-		<div id="score"></div>
-		<div id="quiz-item" class="widget-wrapper">
-			<h2>För vilken ålder är det lag på cykelhjälm i Sverige?</h2>
-			<div>
-				<ol>
-					<li class="first">Alla under 15 år</li>
-					<li>Alla under 12 år</li>
-					<li>Alla ska ha hjälm på sig när de cyklar</li>
-					<li>Det är ingen lag utan en rekommendation</li>
-				</ol>
-			</div>
-		</div><!-- end of .widget-wrapper -->
-	</div>
-	<div id="avatar">
-		<img src="images/avatar.png" alt="avatar" />
-	</div>
+    </nav><!-- end of nav -->
+<div id="container" class="hfeed">
 
-			    </div><!-- end of #wrapper -->
+	<div id="wrapper">
+		<div id="score"></div>
+		<div id="quiz">
+			<div id="quiz-item" class="widget-wrapper">
+				<div id="result">
+					<h2>För vilken ålder är det lag på cykelhjälm i Sverige?</h2>
+					<ol>
+						<li class="blue">Alla under 15 år</li>
+						<li class="blue">Alla under 12 år</li>
+						<li class="blue">Alla ska ha hjälm på sig när de cyklar</li>
+						<li class="blue">Det är ingen lag utan en rekommendation</li>
+					</ol>
+				</div>
+			</div><!-- end of .widget-wrapper -->
+		</div>
+
+		<div id="avatar" style="float:left">
+			<img src="images/avatar.png" alt="avatar" />
+		</div>
+	</div><!-- end of #wrapper -->
 </div><!-- end of #container -->
 
 <div id="footer">
@@ -99,10 +92,9 @@
             <a href="http://www.civil.se/" title="Gå till www.civil.se"><img src="images/civil_logotype.jpg" alt="Civilförsvarsförbundets logotyp" /></a>
         </div><!-- end of #logo -->
         <div class="grid scroll-top">
-			Tillbaka till toppen
-			<a href="#scroll-top" title="scroll to top">&uarr;</a></div>           
+			<a href="#scroll-top" title="scroll to top">Tillbaka till toppen &uarr;</a>
+		</div>
 	</div><!-- end #footer -->
-
 <audio preload="auto" id="audio-cheer"><source src="sounds/5_Sec_Crowd_Cheer-Mike_Koenig-1562033255.mp3" type="audio/mpeg"></audio>
 <audio preload="auto" id="audio-fail"><source src="sounds/Basketball_Buzzer-SoundBible.com-1863250611.mp3" type="audio/mpeg"></audio>
 </body>
