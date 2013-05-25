@@ -15,7 +15,7 @@ function renderQuestion(question) {
 	var body = $('#wrapper');
 	body.empty();
 	body.html(questionTemplate(question));
-	$('li').on('click', function(event) {
+	$('#quiz li').on('click', function(event) {
 		if (game.nextQuestionTimer) return;
 		var clicked = $(this);
 		var answer = clicked.data("answer");
