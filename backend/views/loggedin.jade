@@ -25,7 +25,8 @@ table
     td Fråga
   for item in results
     tr
-      td 
-        input(type="checkbox", name="delete")
+      td
+        form(action="/delete", method="post") 
+          input(type="button", name="user", value=item.id)
       for col in item
         td= col
