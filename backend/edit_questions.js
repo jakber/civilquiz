@@ -76,7 +76,7 @@ function sendQuestionWithAnswers(response) {
 	});
 }
 
-function addAnswer(answer, isCorrect) {
+function addAnswer(res, answer, isCorrect) {
 	execDbQuery('INSERT INTO answers VALUES (null,?, LAST_INSERT_ID(), ?)', [answer, isCorrect], function (error, result, field) {
                         if (error) res.send('Error inserting answer', 500);
                         res.json(result);
@@ -85,10 +85,36 @@ function addAnswer(answer, isCorrect) {
 app.post('/question', function (req, res) {
 	execDbQuery('INSERT INTO questions VALUES (null,'+[req.body.question]+')',null, function (err, results, fields) {
 		if (err) res.send('Error inserting question.', 500);
-		addAnswer(req.body.correctAnswer, 1);
-		addAnswer(req.body.wrongAnswer1, 0);
-		addAnswer(req.body.wrongAnswer2, 0);
-		addAnswer(req.body.wrongAnswer3, 0);
+		addAnswer(res, req.body.correctAnswer, 1);
+		addAnswer(res, req.body.wrongAnswer1, 0);
+		addAnswer(res, req.body.wrongAnswer2, 0);
+		addAnswer(res, req.body.wrongAnswer3, 0);
+	});
+});
+
+app.post('/delete', function(req, res) {
+	execDbQuery('DELETE FROM questions WHERE questions.id = ?', [req.body.question_id], function (err, results) {
+		if (err) res.send('Error deleting question.', 500);
+		execDbQuery('DELETE FROM answers WHERE answers.question_id = ?', [req.body.question_id], function (error, result) {
+			if (error) res.send('Error deleting answers.', 500);
+			res.json(result);
+		});
+	});
+});
+
+function updateAnswer(res, answer_id, newText) {
+	execDbQuery('UPDATE SET text=? WHERE answers.id = ?', [answer_id], function(err, res) {
+		if (err) res.send('Error updating anser with id ' + answer_id, 500);
+	});
+}
+
+app.post('/update', function(req, res) {
+	exeqDbQuery('UPDATE questions SET text=?', [req.body.newQuestion], function (err, results) {
+		if (err) res.send('Error updating question', 500);
+		updateAnswer(res, req.body.correctAnswerId);
+		updateAnswer(res, req.body.wrongAnswer1Id);
+		updateAnswer(res, req.body.wrongAnswer2Id);
+		updateAnswer(res, req.body.wrongAnswer3Id);
 	});
 });
 app.listen(3000);
