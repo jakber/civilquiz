@@ -1,15 +1,15 @@
 var mysql = require('mysql');
 var poolModule = require('generic-pool');
-var connection = mysql.createConnection({
-	host : '127.0.0.1',
-	user : 'root',
-	password : '',
-	database : 'civil_quiz',
-});
-
+var connectionConfig = {
+        host : '127.0.0.1',
+        user : 'root',
+        password : '',
+        database : 'civil_quiz',
+};
 var dbPool = poolModule.Pool({
 	name: 'mysql',
 	create: function(callback) {
+		var connection = mysql.createConnection(connectionConfig);
 		connection.connect();
 		connection.on('error', function(err) {
 			if (!err.fatal) {
