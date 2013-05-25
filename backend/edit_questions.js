@@ -68,7 +68,7 @@ app.get('/admin', function(req, res) {
 	if (!req.session.user_id) {
 		res.render('admin.jade');
 	} else {
-		execDbQuery('SELECT * FROM questions', null, function(err, result) {
+		execDbQuery('SELECT * FROM questions ORDER BY id', null, function(err, result) {
 			res.render('loggedin.jade',{results : result});
 		});
 	}
