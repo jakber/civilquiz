@@ -317,7 +317,7 @@ nav ul a:hover {
 	background-clip: padding-box;
 }
 
-nav ul a.selected {
+nav ul .current {
 	background-color: #f9f9f9;
 }
 
@@ -375,6 +375,34 @@ font-size: 3em;
 display: block;
 line-height:.8em;
 margin-top:.5em;
+}
+
+/* =score bar
+-------------------------------------------------------------- */
+#score .bar{
+	-webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+	background-color: #f9f9f9;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	margin: 0 0 0;
+	padding: .5em;
+	height:1em;
+	margin-bottom:.5em;
+}
+#score .bar div{
+	background-color: #ffc388;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ffc388), to(#ff7f00));
+	background-image: -webkit-linear-gradient(top, #ffc388, #ff7f00);
+	background-image: -moz-linear-gradient(top, #ffc388, #ff7f00);
+	background-image: -ms-linear-gradient(top, #ffc388, #ff7f00);
+	background-image: -o-linear-gradient(top, #ffc388, #ff7f00);
+	background-image: linear-gradient(top, #ffc388, #ff7f00);
+	/*border: 1px solid #bb5d00;*/
+	color: #fff;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffc388, endColorstr=#ff7f00);
+	text-shadow:0 -1px 0 #bb5d00;
+	height:1em;
 }
 
 /* =Footer
