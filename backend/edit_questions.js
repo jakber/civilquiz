@@ -68,7 +68,9 @@ app.get('/admin', function(req, res) {
 	if (!req.session.user_id) {
 		res.render('admin.jade');
 	} else {
-		res.render('loggedin.jade');
+		execDbQuery('SELECT * FROM questions', null, function(err, result) {
+			res.render('loggedin.jade',{results : result});
+		});
 	}
 });
 
@@ -94,7 +96,7 @@ function addAnswer(res, answer, isCorrect, lastid) {
 app.post('/question', function (req, res) {
 	execDbQuery('INSERT INTO questions VALUES (null,?)',[req.body.question], function (err, results, fields) {
 		if (err) res.send('Error inserting question.', 500);
-		execDbQuery('SELECT LAST_INSERT_ID() AS lastid', null, function (err, resultid) {
+		execDbQuery('SELECT MAX(id) AS lastid FROM questions', null, function (err, resultid) {
 			addAnswer(res, req.body.correctAnswer, 1, resultid);
 			addAnswer(res, req.body.wrongAnswer1, 0, resultid);
 			addAnswer(res, req.body.wrongAnswer2, 0, resultid);
