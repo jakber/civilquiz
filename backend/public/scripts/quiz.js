@@ -3,6 +3,11 @@ $(function() {
 	body.empty();
 	body.html(splashTemplate({}));
 	$("p.button").on("click", startGame);
+	// Set a timeout...
+	setTimeout(function(){
+		// Hide the address bar!
+		window.scrollTo(0, 1);
+	}, 0);
 });
 
 var questionTemplate = Handlebars.compile($("#question-template").html());
