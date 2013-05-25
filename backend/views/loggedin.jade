@@ -1,0 +1,17 @@
+h1
+	Civilförsvarsförbundet
+
+form(name="input", action="/question", method="post")
+	key Fråga
+		input(type="text", name="question")
+	br/
+	br/
+	key Rätt svar
+		input(type="text", name="correctAnswer")
+	br/
+	br/
+	key Fel svar
+		input(type="text", name="wrongAnswer1")
+		input(type="text", name="wrongAnswer2")
+		input(type="text", name="wrongAnswer3")
+	input(type="submit", value="Submit") 

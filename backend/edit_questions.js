@@ -67,9 +67,9 @@ app.engine('html', require('ejs').renderFile);
 
 app.get('/admin', function(req, res) {
 	if (!req.session.user_id) {
-		res.render('admin.html');
+		res.render('admin.jade');
 	} else {
-		res.render('loggedin.html');
+		res.render('loggedin.jade');
 	}
 });
 
@@ -85,19 +85,23 @@ function sendQuestionWithAnswers(response) {
 	});
 }
 
-function addAnswer(res, answer, isCorrect) {
-	execDbQuery('INSERT INTO answers VALUES (null,?, LAST_INSERT_ID(), ?)', [answer, isCorrect], function (error, result, field) {
-                        if (error) res.send('Error inserting answer', 500);
-                });
+function addAnswer(res, answer, isCorrect, lastid) {
+	console.log('last inserted: ', lastid, lastid[0].lastid);
+	execDbQuery('INSERT INTO answers VALUES (null,?, ?, ?)', [answer,lastid[0].lastid, isCorrect], function (error, result, field) {
+		if (error) res.send('Error inserting answer', 500);
+	})
 }
+
 app.post('/question', function (req, res) {
 	execDbQuery('INSERT INTO questions VALUES (null,?)',[req.body.question], function (err, results, fields) {
 		if (err) res.send('Error inserting question.', 500);
-		addAnswer(res, req.body.correctAnswer, 1);
-		addAnswer(res, req.body.wrongAnswer1, 0);
-		addAnswer(res, req.body.wrongAnswer2, 0);
-		addAnswer(res, req.body.wrongAnswer3, 0);
-		res.send('Added new question: ' + req.body.question + ', with correct answers: ' + req.body.correctAnswer + ' and wrong answers: ' + req.body.wrongAnswer1 + ', ' + req.body.wrongAnswer2 + ', ' + req.body.wrongAnswer3);
+		execDbQuery('SELECT LAST_INSERT_ID() AS lastid', null, function (err, resultid) {
+			addAnswer(res, req.body.correctAnswer, 1, resultid);
+			addAnswer(res, req.body.wrongAnswer1, 0, resultid);
+			addAnswer(res, req.body.wrongAnswer2, 0, resultid);
+			addAnswer(res, req.body.wrongAnswer3, 0, resultid);
+			res.send('Added new question: ' + req.body.question + ', with correct answers: ' + req.body.correctAnswer + ' and wrong answers: ' + req.body.wrongAnswer1 + ', ' + req.body.wrongAnswer2 + ', ' + req.body.wrongAnswer3);
+		});
 	});
 });
 
@@ -136,8 +140,6 @@ function checkAuth(req, res, next) {
 }
 
 app.post('/login', function (req, res) {
-  var post = req.body;
-
 	execDbQuery('SELECT * FROM admins WHERE username=? AND password=?',[req.body.username, req.body.password], function (err, results) {
 		if(results.length >= 1) {
 			req.session.user_id = req.body.username;
