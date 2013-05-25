@@ -25,7 +25,7 @@ function renderQuestion(question) {
 				game.correct++;
 				clicked.addClass("green");
 				$("#audio-cheer").get(0).play();
-                $("#answerdiv-" + answer).addClass("bounce");
+                $("#answerdiv-" + answer).addClass("flash");
 				$("#flash").html("")
 			} else {
 				clicked.addClass("red")
