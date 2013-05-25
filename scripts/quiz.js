@@ -22,6 +22,7 @@ var questions = [
 ];
 var questionTemplate = Handlebars.compile($("#question-template").html());
 var scoreTemplate = Handlebars.compile($("#score-template").html());
+var gameOverTemplate = Handlebars.compile($("#game-over-template").html());
 var currentQuestion = -1;
 var game = {
 	correct:0,
@@ -30,7 +31,6 @@ var game = {
 
 $(function() {
 	startGame();
-	nextQuestion();
 });
 
 function renderQuestion(question) {
@@ -38,6 +38,7 @@ function renderQuestion(question) {
 	body.empty();
 	body.html(questionTemplate(question));
 	$('li').on('click', function(event) {
+		if (game.nextQuestionTimer) return;
 		var clicked = $(this);
 		var answer = clicked.data("answer");
 		clicked.css("background-color", "#999");
@@ -57,26 +58,38 @@ function renderQuestion(question) {
 				game.wrong++;
 			}
 			//$("#flash").css("display", "inline-block");
-			renderScore();
-			setTimeout(nextQuestion, 2000);
+			game.nextQuestionTimer = setTimeout(nextQuestion, 2000);
 		});
 	});
 } 
 
 function startGame() {
-game = {
-	time:60,
-	correct:0,
-	wrong:0
-};
-nextQuestion();
+	console.log("new game")
+	game = {
+		time:60.0,
+		correct:0,
+		wrong:0
+	};
 
+	renderScore();
+	console.log($(".bar div").get(0));
+	$(".bar div").animate({width:0}, 60000, gameOver);
+	nextQuestion();
+}
+
+function tick() {
+	game.time -= 0.5;
+	if (game.time <= 0) 
+		gameOver();
+	var width = (game.time/60) * 100;
+	$(".bar div").css("width", "" + width + "%");
+	setTimeout(tick, 500)
 }
 
 function renderScore() {
 	var body = $('#score');
 	body.empty();
-	body.html(scoreTemplate(score));
+	body.html(scoreTemplate(game));
 }
 
 function validateAnswer(question, answer, callback) {
@@ -88,6 +101,17 @@ function validateAnswer(question, answer, callback) {
 }
 
 function nextQuestion() {
+	delete game.nextQuestionTimer;
 	currentQuestion = (currentQuestion+1)%questions.length;
 	renderQuestion(questions[currentQuestion]);
+}
+
+function gameOver() {
+	clearTimeout(game.nextQuestionTimer);
+	delete game.nextQuestionTimer;
+	game.score = game.correct - game.wrong;
+	var body = $('#quiz-item');
+	body.empty();
+	body.html(gameOverTemplate(game));
+	$("#playagain").on("click", startGame);
 }
