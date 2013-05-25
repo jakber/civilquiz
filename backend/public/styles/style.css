@@ -60,7 +60,7 @@ img {
 a {
 	color: #06c;
 	font-weight: 400;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 a:hover,
@@ -68,7 +68,7 @@ a:focus,
 a:active {
 	color: #444;
 	outline: 0;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 /* =Buttons (Colors)
@@ -236,9 +236,9 @@ li ol {
 -------------------------------------------------------------- */
 #container {
 	margin: 0 auto;
-	max-width: 460px;
+	max-width: 760px;
 	min-width: 250px;
-	padding: 0px 25px;
+	padding: 0 .5em;
 }
 #footer {
 	clear: both;
@@ -279,7 +279,7 @@ nav ul{
 	padding: 0;
 	overflow:hidden;
 	margin: 0 auto;
-	max-width: 460px;
+	max-width: 760px;
 	min-width: 250px;
 }
 
@@ -325,14 +325,16 @@ nav ul > li:last-child > a {
 	border-left: none;
 }
 
+.button{
+padding: 2em;
+text-align:center;
+}
+
 /* =Quiz
 -------------------------------------------------------------- */
 #avatar{
-background:transparent url('../images/talk.png') no-repeat right top;
-padding-right:60px;
-max-width:140px;
+background:transparent url('../images/talk.png') no-repeat 100px top;
 margin-top:-1px;
-float:left;
 }
 #quiz{
 margin-bottom:0;
@@ -357,8 +359,9 @@ padding:1em;
 border-bottom:solid 1px #ccc;
 margin-bottom:.5em;
 }
-#quiz li.first{
-border-top:solid 1px #ccc;
+#quiz li:hover{
+cursor: hand; 
+cursor: pointer; 
 }
 /* =Result
 -------------------------------------------------------------- */
@@ -405,6 +408,13 @@ margin-top:.5em;
 	height:1em;
 }
 
+/* =about
+-------------------------------------------------------------- */
+.contact{
+list-style:none;
+margin-left:0;
+padding-left:0;
+}
 /* =Footer
 -------------------------------------------------------------- */
 #footer {
