@@ -101,7 +101,7 @@ app.post('/question', function (req, res) {
 			addAnswer(res, req.body.wrongAnswer1, 0, resultid);
 			addAnswer(res, req.body.wrongAnswer2, 0, resultid);
 			addAnswer(res, req.body.wrongAnswer3, 0, resultid);
-			res.send('Added new question: ' + req.body.question + ', with correct answers: ' + req.body.correctAnswer + ' and wrong answers: ' + req.body.wrongAnswer1 + ', ' + req.body.wrongAnswer2 + ', ' + req.body.wrongAnswer3);
+			res.redirect('/admin');
 		});
 	});
 });
