@@ -46,7 +46,7 @@ function startGame() {
 	};
 
 	renderScore();
-	$(".bar div").animate({width:0, easing:"linear"}, 60000, gameOver);
+	$(".bar div").animate({width:0}, 60000, "linear", gameOver);
 	nextQuestion();
 }
 
