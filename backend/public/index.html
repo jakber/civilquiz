@@ -20,6 +20,7 @@
 	<title>Quiz - Civilförsvarsförbundet</title>
 	<meta name='robots' content='noindex,nofollow' />
 	<link rel='stylesheet' id='responsive-style-css'  href='styles/style.css' type='text/css' media='all' />
+	<link rel='stylesheet' id='animation-style-css'  href='styles/animate.css' type='text/css' media='all' />
 
 	<script src="scripts/jquery-1.10.0.min.js"></script>
 	<script src="scripts/underscore-min.js"></script>
@@ -37,7 +38,7 @@
 			<h2>{{text}}</h2>
 			<ol>
 				{{#each answers}}
-					<li id="answer-{{id}}" data-answer="{{id}}" class="blue">{{text}}</li>
+					<div class="answerdiv" id="answerdiv-{{answer}}"><li id="answer-{{id}}" data-answer="{{id}}" class="blue">{{text}}</li></div>
 				{{/each}}
 			</ol>
 		</div>

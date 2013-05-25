@@ -25,9 +25,11 @@ function renderQuestion(question) {
 				game.correct++;
 				clicked.addClass("green");
 				$("#audio-cheer").get(0).play();
+                $("#answerdiv-" + answer).addClass("bounce");
 				$("#flash").html("")
 			} else {
 				clicked.addClass("red")
+                $("#answerdiv-" + answer).addClass("shake");
 				$("#answer-" + res.correct).addClass("green");
 				$("#audio-fail").get(0).play();
 				game.wrong++;
