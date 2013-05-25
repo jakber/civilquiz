@@ -38,7 +38,7 @@
 			<h2>{{text}}</h2>
 			<ol>
 				{{#each answers}}
-					<div class="answerdiv" id="answerdiv-{{id}}"><li id="answer-{{id}}" data-answer="{{id}}" class="blue">{{text}}</li></div>
+					<div class="animdiv" id="answerdiv-{{id}}"><li id="answer-{{id}}" data-answer="{{id}}" class="blue">{{text}}</li></div>
 				{{/each}}
 			</ol>
 		</div>
@@ -48,7 +48,7 @@
 		<div id="result" class="widget-wrapper">
 			<h2>Tiden är ute!</h2>
 			
-			<p>Du fick {{correct}} rätt och {{wrong}} fel på en minut. Det ger dig <span class="points">{{score}} poäng</span>.</p>
+			<p>Du fick {{correct}} rätt och {{wrong}} fel på en minut. Det ger dig <span class="points animdiv lightSpeedIn">{{score}} poäng</span>.</p>
 			<p>Är du inte nöjd? <a href="javascript:startGame();">Försök igen!</a></p>
 			<p>Eller vill du läsa på lite? <a href="http://www.civil.se/tips-rad/">Besök Tips & råd på våran sajt</a>
 			</p>
